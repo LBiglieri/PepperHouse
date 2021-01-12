@@ -19,6 +19,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Content Management
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                <li><a class="dropdown-item">Category</a></li>
+                                <li><a class="dropdown-item">Sub-Category</a></li>
+                                <li><a class="dropdown-item">MenuItem</a> </li>
+                                <li><a class="dropdown-item">Coupons</a></li>
+                                <li><a class="dropdown-item">Users</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
