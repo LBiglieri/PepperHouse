@@ -20,7 +20,6 @@ namespace PepperHouse.Areas.Admin.Controllers
         //GET
         public async Task<IActionResult> Index()
         {
-
             return View(await _db.Category.ToListAsync());
         }
     }
