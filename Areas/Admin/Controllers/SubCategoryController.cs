@@ -12,6 +12,9 @@ namespace PepperHouse.Areas.Admin.Controllers
     [Area("Admin")]
     public class SubCategoryController : Controller
     {
+        [TempData]
+        public string StatusMessage { get; set; }
+
         private readonly ApplicationDbContext _db;
         public SubCategoryController(ApplicationDbContext db)
         {
@@ -36,6 +39,36 @@ namespace PepperHouse.Areas.Admin.Controllers
             };
 
             return View(model);
+        }
+
+        //POST - Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(SubCategoryAndCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var doesSubCategoryExists = _db.SubCategory.Include(s => s.Category).Where(s => s.Name == model.SubCategory.Name && s.Category.ID == model.SubCategory.CategoryID);
+                if (doesSubCategoryExists.Count() > 0)
+                {
+                    //error
+                    StatusMessage = "Error: Sub Category exists under " + doesSubCategoryExists.First().Category.Name + " category. Please use another name.";
+                }
+                else
+                {
+                    _db.SubCategory.Add(model.SubCategory);
+                    await _db.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            SubCategoryAndCategoryViewModel modelVM = new SubCategoryAndCategoryViewModel()
+            {
+                CategoryList = await _db.Category.ToListAsync(),
+                SubCategory = model.SubCategory,
+                SubCategoryList = await _db.SubCategory.OrderBy(p => p.Name).Select(p => p.Name).ToListAsync(),
+                StatusMessage = StatusMessage
+            };
+            return View(modelVM);
         }
     }
 }
