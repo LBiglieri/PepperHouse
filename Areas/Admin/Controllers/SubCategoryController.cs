@@ -82,5 +82,32 @@ namespace PepperHouse.Areas.Admin.Controllers
                              select subCategory).ToListAsync();
             return Json(new SelectList(subCategories, "ID", "Name"));
         }
+
+        //GET - Edit
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subCategory = await _db.SubCategory.SingleOrDefaultAsync(m => m.ID == id);
+
+            if (subCategory == null)
+            {
+                return NotFound();
+            }
+
+            SubCategoryAndCategoryViewModel model = new SubCategoryAndCategoryViewModel()
+            {
+                CategoryList = await _db.Category.ToListAsync(),
+                SubCategory = subCategory,
+                SubCategoryList = await _db.SubCategory.OrderBy(p => p.Name).Select(p => p.Name).Distinct().ToListAsync()
+            };
+
+            return View(model);
+        }
+
+
     }
 }
