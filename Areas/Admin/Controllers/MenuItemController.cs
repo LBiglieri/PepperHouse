@@ -37,7 +37,7 @@ namespace PepperHouse.Areas.Admin.Controllers
         //GET - Create
         public IActionResult Create()
         {
-            return View(MenuItemVM)
+            return View(MenuItemVM);
         }
     }
 }
