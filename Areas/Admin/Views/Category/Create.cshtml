@@ -1,4 +1,4 @@
-﻿@model  Category
+﻿@model Category
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                 <label asp-for="Name" class="col-form-label"></label>
             </div>
             <div class="col-5">
-                <input asp-for="Name"class="form-control" />
+                <input asp-for="Name" class="form-control" />
             </div>
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
@@ -26,3 +26,7 @@
         </div>
     </div>
 </form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial")}
+}
