@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PepperHouse.Data;
 using PepperHouse.Models.ViewModels;
+using PepperHouse.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,6 +40,51 @@ namespace PepperHouse.Areas.Admin.Controllers
         public IActionResult Create()
         {
             return View(MenuItemVM);
+        }
+
+        [HttpPost,ActionName("Create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePOST()
+        {
+            MenuItemVM.MenuItem.SubCategoryID = Convert.ToInt32(Request.Form["SubCategoryID"].ToString());
+            if (ModelState.IsValid)
+            {
+                return View(MenuItemVM);
+            }
+
+            _db.MenuItem.Add(MenuItemVM.MenuItem);
+            await _db.SaveChangesAsync();
+
+            //work on the image saving
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            var menuItemFromDB = await _db.MenuItem.FindAsync(MenuItemVM.MenuItem.ID);
+
+            if (files.Count > 0)
+            {
+                //files has been uploaded
+                var uploads = Path.Combine(webRootPath, "images");
+                var extension = Path.GetExtension(files[0].FileName);
+
+                using (var fileStream = new FileStream(Path.Combine(uploads,MenuItemVM.MenuItem.ID + extension), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+                menuItemFromDB.Image = @"\images\" + MenuItemVM.MenuItem.ID + extension;
+            }
+            else
+            {
+                //no file has been uploaded
+                var uploads = Path.Combine(webRootPath, @"\images\" + SD.DefaultFoodImage);
+                System.IO.File.Copy(uploads, webRootPath + @"\images\" + MenuItemVM.MenuItem.ID + ".png");
+                menuItemFromDB.Image = @"\images\" + MenuItemVM.MenuItem.ID + ".png";
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
