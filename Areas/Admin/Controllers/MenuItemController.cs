@@ -156,5 +156,22 @@ namespace PepperHouse.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        //GET - Details
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            MenuItemVM.MenuItem = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.ID == id);
+            MenuItemVM.SubCategory = await _db.SubCategory.Where(s => s.CategoryID == MenuItemVM.MenuItem.CategoryID).ToListAsync();
+
+            if (MenuItemVM.MenuItem == null)
+            {
+                return NotFound();
+            }
+            return View(MenuItemVM);
+        }
     }
 }
