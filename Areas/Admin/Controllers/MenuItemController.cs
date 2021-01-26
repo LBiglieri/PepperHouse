@@ -47,7 +47,7 @@ namespace PepperHouse.Areas.Admin.Controllers
         public async Task<IActionResult> CreatePOST()
         {
             MenuItemVM.MenuItem.SubCategoryID = Convert.ToInt32(Request.Form["SubCategoryID"].ToString());
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(MenuItemVM);
             }
@@ -77,7 +77,7 @@ namespace PepperHouse.Areas.Admin.Controllers
             else
             {
                 //no file has been uploaded
-                var uploads = Path.Combine(webRootPath, @"\images\" + SD.DefaultFoodImage);
+                var uploads = Path.Combine(webRootPath, @"images\" + SD.DefaultFoodImage);
                 System.IO.File.Copy(uploads, webRootPath + @"\images\" + MenuItemVM.MenuItem.ID + ".png");
                 menuItemFromDB.Image = @"\images\" + MenuItemVM.MenuItem.ID + ".png";
             }
