@@ -173,5 +173,59 @@ namespace PepperHouse.Areas.Admin.Controllers
             }
             return View(MenuItemVM);
         }
+
+        //GET - Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            MenuItemVM.MenuItem = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.ID == id);
+            MenuItemVM.SubCategory = await _db.SubCategory.Where(s => s.CategoryID == MenuItemVM.MenuItem.CategoryID).ToListAsync();
+
+            if (MenuItemVM.MenuItem == null)
+            {
+                return NotFound();
+            }
+            return View(MenuItemVM);
+        }
+
+        //POST - Delete
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            var menuItemFromDB = await _db.MenuItem.SingleOrDefaultAsync(m => m.ID == id);
+
+            if (menuItemFromDB == null)
+            {
+                return NotFound();
+            }
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+
+            if (files.Count > 0)
+            {
+                //Delete image file
+                var imagePath = Path.Combine(webRootPath, menuItemFromDB.Image.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+
+            _db.MenuItem.Remove(menuItemFromDB);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
