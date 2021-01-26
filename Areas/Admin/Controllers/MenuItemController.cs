@@ -103,5 +103,58 @@ namespace PepperHouse.Areas.Admin.Controllers
             }
             return View(MenuItemVM);
         }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPOST(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            MenuItemVM.MenuItem.SubCategoryID = Convert.ToInt32(Request.Form["SubCategoryID"].ToString());
+            
+            if (!ModelState.IsValid)
+            {
+                MenuItemVM.SubCategory = await _db.SubCategory.Where(s => s.CategoryID == MenuItemVM.MenuItem.CategoryID).ToListAsync();
+                return View(MenuItemVM);
+            }
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files;
+
+            var menuItemFromDB = await _db.MenuItem.FindAsync(MenuItemVM.MenuItem.ID);
+
+            if (files.Count > 0)
+            {
+                //New image has been uploaded
+                var uploads = Path.Combine(webRootPath, "images");
+                var extension_new = Path.GetExtension(files[0].FileName);
+
+                //Delete original file 
+                var imagePath = Path.Combine(webRootPath, menuItemFromDB.Image.TrimStart('\\'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
+                //upload new image
+                using (var fileStream = new FileStream(Path.Combine(uploads, MenuItemVM.MenuItem.ID + extension_new), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+                menuItemFromDB.Image = @"\images\" + MenuItemVM.MenuItem.ID + extension_new;
+            }
+
+            menuItemFromDB.Name = MenuItemVM.MenuItem.Name;
+            menuItemFromDB.Description = MenuItemVM.MenuItem.Description;
+            menuItemFromDB.Price = MenuItemVM.MenuItem.Price;
+            menuItemFromDB.Hotness = MenuItemVM.MenuItem.Hotness;
+            menuItemFromDB.CategoryID = MenuItemVM.MenuItem.CategoryID;
+            menuItemFromDB.SubCategoryID = MenuItemVM.MenuItem.SubCategoryID;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
