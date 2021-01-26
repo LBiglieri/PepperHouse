@@ -9,7 +9,7 @@
 <br />
 
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
-    <div class="border backgroundWhite">
+    <div class="border backgroundWhite row">
         <input type="hidden" asp-for="MenuItem.ID" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-3 offset-1">
-            <img src="@Model.MenuItem.Image" width="100" style="border-radius:5px;border: 1px solid #bbb9b9;" />
+            <img src="@Model.MenuItem.Image" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
         </div>
 
         <div class="col-8">
