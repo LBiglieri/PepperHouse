@@ -23,11 +23,15 @@ namespace PepperHouse.Areas.Admin.Controllers
             return View(await _db.Coupon.ToListAsync());
         }
 
+
+        // GET - Create
         public IActionResult Create()
         {
             return View();
         }
 
+
+        //POST - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Coupon coupon)
@@ -54,5 +58,40 @@ namespace PepperHouse.Areas.Admin.Controllers
             }
             return View(coupon);
         }
+
+        //GET - Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var coupon = await _db.Coupon.SingleOrDefaultAsync(m => m.ID == id);
+
+            if (coupon == null)
+            {
+                return NotFound();
+            }
+
+            return View(coupon);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var coupon = await _db.Coupon.SingleOrDefaultAsync(m => m.ID == id);
+            if (coupon == null)
+            {
+                return NotFound();
+            }
+
+            _db.Coupon.Remove(coupon);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+
     }
 }
