@@ -15,7 +15,29 @@
                         <img src="@item.Image" width="99%" style="border-radius:5px; border:1px solid #bbb9b9" />
                     </div>
                     <div class="col-md-9 col-sm-12">
-                        
+                        <div class="row pr-3">
+                            <div class="col-8">
+                                <label class="text-primary" style="font-size:21px;color:maroon">@item.Name  </label>
+                                @switch (item.Hotness)
+                                {
+                                    case "1":
+                                        <img src="~/images/Mild.jpg" title="Mild" />
+                                        break;
+                                    case "2":
+                                        <img src="~/images/Medium.jpg" title="Medium"/>
+                                        break;
+                                    case "3":
+                                        <img src="~/images/Hot.jpg" title="Hot"/>
+                                        break;
+                                    case "4":
+                                        <img src="~/images/ExtraHot.jpg" title="ExtraHot"/>
+                                        break;
+                                }
+                            </div>
+                            <div class="col-4">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
