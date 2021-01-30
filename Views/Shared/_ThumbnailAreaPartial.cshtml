@@ -21,26 +21,34 @@
                                 @switch (item.Hotness)
                                 {
                                     case "1":
-                                        <img src="~/images/Mild.jpg" title="Mild" />
+                                        <img src="~/images/Mild.jpg" style="max-width:50px" title="Mild" />
                                         break;
                                     case "2":
-                                        <img src="~/images/Medium.jpg" title="Medium"/>
+                                        <img src="~/images/Medium.jpg" style="max-width:50px" title="Medium"/>
                                         break;
                                     case "3":
-                                        <img src="~/images/Hot.jpg" title="Hot"/>
+                                        <img src="~/images/Hot.jpg" style="max-width:50px" title="Hot"/>
                                         break;
                                     case "4":
-                                        <img src="~/images/ExtraHot.jpg" title="ExtraHot"/>
+                                        <img src="~/images/ExtraHot.jpg" style="max-width:50px" title="ExtraHot"/>
                                         break;
                                 }
                             </div>
-                            <div class="col-4">
-
+                            <div class="col-4 text-right" style="color:maroon">
+                                <h4>$@item.Price</h4>
                             </div>
+                        </div>
+
+                        <div class="row col-12 text-justify d-none d-md-block">
+                            <p>@Html.Raw(item.Description)</p>
+                        </div>  
+                        <div class="col-md-3 col-sm-12 offset-md-9 text-center">
+                            <a asp-action="Details" class="btn btn-success form-control" asp-route-id="@item.ID">Details</a>
                         </div>
                     </div>
                 </div>
             </div>
         }
+        <div class="p-4"></div>
     </div>
 }
