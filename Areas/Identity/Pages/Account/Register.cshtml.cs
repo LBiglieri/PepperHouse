@@ -86,6 +86,7 @@ namespace PepperHouse.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string role = Request.Form["rdUserRole"].ToString();
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -102,8 +103,32 @@ namespace PepperHouse.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, SD.ManagerUser);
-                    _logger.LogInformation("User created a new account with password.");
+                    if (role == SD.KitchenUser)
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.KitchenUser);
+                    }
+                    else
+                    {
+                        if (role == SD.FrontDeskUser)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.FrontDeskUser);
+                        }
+                        else
+                        {
+                            if (role == SD.ManagerUser)
+                            {
+                                await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                            }
+                            else
+                            {
+                                await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                return LocalRedirect(returnUrl);
+                            }
+                        }
+                    }
+
+                    return RedirectToAction("Index", "User", new { area = "Admin" });
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -122,8 +147,8 @@ namespace PepperHouse.Areas.Identity.Pages.Account
                     //}
                     //else
                     //{
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        
+                        
                     //}
                 }
                 foreach (var error in result.Errors)
