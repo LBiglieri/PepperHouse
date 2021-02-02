@@ -3,6 +3,25 @@
     ViewData["Title"] = "Menu";
 }
 
+<div class="backgroundWhite container">
+
+    <ul id="menu-filters" class="menu-filter-list list-inline text-center">
+        <li class="active btn btn-secondary ml-1 mr-1" data-filter=".menu-restaurant">Show All</li>
+
+        @foreach (var item in Model.Category)
+        {
+            <li class="active btn btn-secondary ml-1 mr-1" data-filter=".@item.Name.Replace(" ",string.Empty)">@item.Name</li>
+        }
+    </ul>
+
+    @foreach (var category in Model.Category)
+    {
+        <div class="row" id="menu-wrapper">
+            <partial name="_ThumbnailAreaPartial" model="Model.MenuItem.Where(u=>u.Category.Name.Equals(category.Name))" />
+        </div>
+    }
+</div>
+
 <br />
 
 @if (Model.Coupon.ToList().Count > 0)
@@ -37,53 +56,32 @@
     </div>
 }
 
-<br /><br />
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
-      <div class="backgroundWhite container">
+    <script>
 
-          <ul id="menu-filters" class="menu-filter-list list-inline text-center">
-              <li class="active btn btn-secondary ml-1 mr-1" data-filter=".menu-restaurant">Show All</li>
+        var posts = $('.post');
 
-              @foreach (var item in Model.Category)
-              {
-                  <li class="btn btn-secondary ml-1 mr-1" data-filter=".@item.Name.Replace(" ",string.Empty)">@item.Name</li>
-              }
-          </ul>
+        (function ($) {
 
-          @foreach (var category in Model.Category)
-          {
-              <div class="row" id="menu-wrapper">
-                  <partial name="_ThumbnailAreaPartial" model="Model.MenuItem.Where(u=>u.Category.Name.Equals(category.Name))" />
-              </div>
-          }
-      </div>
+            $("#menu-filters li").click(function () {
+                $("#menu-filters li").removeClass('active btn btn-secondary');
+                $(this).addClass('active btn btn-secondary');
 
-@section Scripts{ 
-<script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+                var selectedFilter = $(this).data("filter");
 
-<script>
+                $(".menu-restaurant").fadeOut();
 
-    var posts = $('.post');
-
-    (function ($) {
-
-        $("#menu-filters li").click(function () {
-            $("#menu-filters li").removeClass('active btn btn-secondary');
-            $(this).addClass('active btn btn-secondary');
-
-            var selectedFilter = $(this).data("filter");
-
-            $(".menu-restaurant").fadeOut();
-
-            setTimeout(function () {
-                $(selectedFilter).slideDown();
-            }, 300);
-        });
+                setTimeout(function () {
+                    $(selectedFilter).slideDown();
+                }, 100);
+            });
 
 
 
-    })(jQuery);
+        })(jQuery);
 
-</script>
+    </script>
 
 }
