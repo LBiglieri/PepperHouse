@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PepperHouse.Data;
 using PepperHouse.Models;
 using PepperHouse.Models.ViewModels;
+using PepperHouse.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,6 +39,20 @@ namespace PepperHouse.Controllers
                 Coupon = await _db.Coupon.Where(c => c.IsActive == true).ToListAsync(),
             };
             return View(menuViewModel);
+        }
+
+        [Authorize(Roles = SD.CustomerEndUser)]
+        public async Task<IActionResult> Details(int id)
+        {
+            var menuItemFromDB = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.ID == id).FirstOrDefaultAsync();
+
+            ShoppingCart shoppingCart = new ShoppingCart()
+            {
+                MenuItem = menuItemFromDB,
+                MenuItemID = menuItemFromDB.ID
+            };
+
+            return View(shoppingCart); 
         }
         public IActionResult Privacy()
         {
