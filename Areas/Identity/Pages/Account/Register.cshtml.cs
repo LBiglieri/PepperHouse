@@ -121,7 +121,7 @@ namespace PepperHouse.Areas.Identity.Pages.Account
                             }
                             else
                             {
-                                await _userManager.AddToRoleAsync(user, SD.ManagerUser);
+                                await _userManager.AddToRoleAsync(user, SD.CustomerEndUser);
                                 await _signInManager.SignInAsync(user, isPersistent: false);
                                 return LocalRedirect(returnUrl);
                             }
