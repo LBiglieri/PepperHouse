@@ -1,4 +1,7 @@
 ﻿@using PepperHouse.Utility
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,11 +41,24 @@
                         }
                         else
                         {
-                            <li style="color:white">
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-shopping-cart"></i> &nbsp; 0
-                                </a>
-                            </li>
+                            @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCartCount) != null)
+                            {
+                                var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCartCount);
+
+                                <li style="color:white">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-shopping-cart"></i> &nbsp; @count
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="color:white">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-shopping-cart"></i> &nbsp;
+                                    </a>
+                                </li>
+                            }
                         }
 
                     </ul>
@@ -58,7 +74,7 @@
 
     <footer class="border-top pl-3 footer text-white-50" style="background-color: #343a40">
         <div class="container">
-            &copy; 2021 - PepperHouse
+            &copy; @DateTime.Now.Year.ToString() - PepperHouse
         </div>
     </footer>
     <script src="https://cdn.tiny.cloud/1/ef6gh8pothq4oujhnkgyzt91m5mq849dm0n71c61qoyvkzxg/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
