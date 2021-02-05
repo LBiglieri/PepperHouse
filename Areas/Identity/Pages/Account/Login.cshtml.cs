@@ -95,7 +95,7 @@ namespace PepperHouse.Areas.Identity.Pages.Account
 
                     List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.ApplicationUserID == user.Id).ToListAsync();
 
-                    HttpContext.Session.SetInt32("ssCartCount", lstShoppingCart.Count);
+                    HttpContext.Session.SetInt32(SD.ssShoppingCartCount, lstShoppingCart.Count);
 
 
                     _logger.LogInformation("User logged in.");

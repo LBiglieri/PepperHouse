@@ -84,7 +84,7 @@ namespace PepperHouse.Controllers
                 await _db.SaveChangesAsync();
 
                 var count = _db.ShoppingCart.Where(c => c.ApplicationUserID == CartObject.ApplicationUserID).ToList().Count();
-                HttpContext.Session.SetInt32("ssCartCount", count);
+                HttpContext.Session.SetInt32(SD.ssShoppingCartCount, count);
 
                 return RedirectToAction("Menu");
             }
