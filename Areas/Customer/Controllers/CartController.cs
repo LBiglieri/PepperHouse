@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace PepperHouse.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
