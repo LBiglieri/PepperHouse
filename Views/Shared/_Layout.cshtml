@@ -46,7 +46,7 @@
                                 var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCartCount);
 
                                 <li style="color:white">
-                                    <a href="#" class="nav-link">
+                                    <a class="nav-link" asp-action="Index" asp-controller="Cart" asp-area="Customer">
                                         <i class="fas fa-shopping-cart"></i> &nbsp; @count
                                     </a>
                                 </li>
