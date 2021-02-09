@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PepperHouse.Data;
 using PepperHouse.Models.ViewModels;
@@ -11,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace PepperHouse.Areas.Customer.Controllers
 {
-    [Area("Customer")]
+    [Authorize(Roles = SD.CustomerEndUser)]
+    [Area("Customer")]    
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
