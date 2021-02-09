@@ -11,6 +11,7 @@ namespace PepperHouse.Utility
         //static details
         public const string DefaultFoodImage = "default_food.png";
         public const string ssShoppingCartCount = "ssCartCount";
+        public const string ssCouponCode = "ssCouponCode";
 
         //roles
         public const string ManagerUser = "Manager";
