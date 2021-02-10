@@ -85,5 +85,25 @@ namespace PepperHouse.Areas.Customer.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Minus(int cartId)
+        {
+            var cart = await _db.ShoppingCart.FirstOrDefaultAsync(c => c.ID == cartId);
+            if (cart.Count == 1)
+            {
+                _db.ShoppingCart.Remove(cart);
+                await _db.SaveChangesAsync();
+
+                var cnt = _db.ShoppingCart.Where(u => u.ApplicationUserID == cart.ApplicationUserID).ToList().Count;
+                HttpContext.Session.SetInt32(SD.ssShoppingCartCount, cnt);
+            }
+            else
+            {
+                cart.Count -= 1;
+                await _db.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
