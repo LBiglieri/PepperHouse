@@ -77,5 +77,13 @@ namespace PepperHouse.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Plus(int cartId)
+        {
+            var cart = await _db.ShoppingCart.FirstOrDefaultAsync(c => c.ID == cartId);
+            cart.Count += 1;
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
