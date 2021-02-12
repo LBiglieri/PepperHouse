@@ -58,5 +58,17 @@ namespace PepperHouse.Areas.Customer.Controllers
             }
             return View(orderList);
         }
+
+        public async Task<IActionResult> GetOrderDetails(int id)
+        {
+            OrderDetailsViewModel orderDetailsViewModel = new OrderDetailsViewModel()
+            {
+                OrderHeader = await _db.OrderHeader.FirstOrDefaultAsync(m => m.ID == id),
+                OrderDetails = await _db.OrderDetails.Where(m => m.OrderID == id).ToListAsync()
+            };
+            orderDetailsViewModel.OrderHeader.ApplicationUser = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Id == orderDetailsViewModel.OrderHeader.UserID);
+
+            return PartialView("_IndividualOrderDetails", orderDetailsViewModel);
+        }
     }
 }
