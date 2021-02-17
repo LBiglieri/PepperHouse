@@ -60,7 +60,7 @@
                             </button>
                         </td>
                         <td>
-                            @if (item.OrderHeader.Status != "Completed" || item.OrderHeader.Status != "Cancelled")
+                            @if (item.OrderHeader.Status != "Cancelled")
                             {
                                 <button type="submit" class="btn btn-info btnOrderStatus" data-id="@item.OrderHeader.ID" data-toggle="modal">
                                     <i class="fas fa-clock"></i> Status
