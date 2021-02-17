@@ -1,0 +1,19 @@
+﻿@model PepperHouse.Models.ViewModels.OrderDetailsViewModel
+
+<div class="border ml-1 backgroundWhiteBorder10Padding" style="width:100%">
+    @switch (Model.OrderHeader.Status)
+    {
+        case PepperHouse.Utility.SD.StatusSubmitted:
+            <img src="~/images/OrderPlaced.png" style="width:100%" />
+            break;
+        case PepperHouse.Utility.SD.StatusInProcess:
+            <img src="~/images/InKitchen.png" style="width:100%" />
+            break;
+        case PepperHouse.Utility.SD.StatusReady:
+            <img src="~/images/ReadyForPickup.png" style="width:100%" />
+            break;
+        case PepperHouse.Utility.SD.StatusCompleted:
+            <img src="~/images/completed.png" style="width:100%" />
+            break;
+    }
+</div>
