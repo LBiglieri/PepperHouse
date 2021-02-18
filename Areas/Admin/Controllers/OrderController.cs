@@ -167,5 +167,17 @@ namespace PepperHouse.Areas.Admin.Controllers
 
             return View(orderListVM);
         }
+
+        [Authorize(Roles = SD.FrontDeskUser + "," + SD.ManagerUser)]
+        [HttpPost]
+        [ActionName("OrderPickup")]
+        public async Task<IActionResult> OrderPickupPost(int orderId)
+        {
+            OrderHeader orderHeader = await _db.OrderHeader.FindAsync(orderId);
+            orderHeader.Status = SD.StatusCompleted;
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("OrderPickup", "Order");
+        }
     }
 }
