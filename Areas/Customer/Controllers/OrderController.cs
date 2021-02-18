@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 namespace PepperHouse.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize(Roles = SD.CustomerEndUser)]
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -25,6 +24,7 @@ namespace PepperHouse.Areas.Customer.Controllers
             _db = db;
         }
 
+        [Authorize(Roles = SD.CustomerEndUser)]
         public async Task<IActionResult> Confirm(int id)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -39,6 +39,7 @@ namespace PepperHouse.Areas.Customer.Controllers
             return View(orderDetailsViewModel);
         }
 
+        [Authorize(Roles = SD.CustomerEndUser)]
         public async Task<IActionResult> OrderHistory(int productPage = 1)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -80,6 +81,7 @@ namespace PepperHouse.Areas.Customer.Controllers
             return View(orderListVM);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetOrderDetails(int id)
         {
             OrderDetailsViewModel orderDetailsViewModel = new OrderDetailsViewModel()
@@ -92,6 +94,7 @@ namespace PepperHouse.Areas.Customer.Controllers
             return PartialView("_IndividualOrderDetails", orderDetailsViewModel);
         }
 
+        [Authorize(Roles = SD.CustomerEndUser)]
         public async Task<IActionResult> GetOrderStatus(int id)
         {
             OrderDetailsViewModel orderDetailsViewModel = new OrderDetailsViewModel()
