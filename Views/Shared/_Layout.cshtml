@@ -41,7 +41,23 @@
                                 </ul>
                             </li>
                         }
-                        else
+                        @if (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.KitchenUser))
+                        {
+                            <li style="color:white">
+                                <a class="nav-link" asp-action="ManageOrder" asp-controller="Order" asp-area="Admin">
+                                    Manage Orders
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.FrontDeskUser))
+                        {
+                            <li style="color:white">
+                                <a class="nav-link" asp-action="PickupOrder" asp-controller="Order" asp-area="Admin">
+                                    Order Pickups
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(SD.CustomerEndUser))
                         {
                             @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCartCount) != null)
                             {
@@ -66,7 +82,14 @@
                                 </a>
                             </li>
                         }
-
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li style="color:white">
+                                <a class="nav-link" asp-action="Index" asp-controller="Cart" asp-area="Customer">
+                                    <i class="fas fa-shopping-cart"></i> &nbsp;
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
