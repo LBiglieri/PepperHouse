@@ -91,7 +91,7 @@
             </ul>
             @if (Model.OrderHeader.Status.Equals(SD.StatusReady) && (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.FrontDeskUser)))
             {
-                <button type="submit" class="btn btn-success form-control"><i class="far fa-thumbs-up"></i> Confirm Pickup</button>
+                <button type="submit" asp-area="Admin" asp-controller="Order" asp-action="OrderPickup" asp-route-orderId="@Model.OrderHeader.ID" class="btn btn-success form-control"><i class="far fa-thumbs-up"></i> Confirm Pickup</button>
             }
             else
             {
