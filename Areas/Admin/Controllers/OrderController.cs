@@ -31,7 +31,6 @@ namespace PepperHouse.Areas.Admin.Controllers
 
             List<OrderHeader> OrderHeaderList = await _db.OrderHeader
                 .Where(o=>o.Status == SD.StatusSubmitted || o.Status == SD.StatusInProcess)
-                .Where(o=>o.PickUpDate == DateTime.Today)
                 .OrderByDescending(o=>o.PickupTime).ToListAsync();
 
             foreach (OrderHeader item in OrderHeaderList)
@@ -44,7 +43,7 @@ namespace PepperHouse.Areas.Admin.Controllers
                 orderDetailsVM.Add(individual);
             }
 
-            return View(orderDetailsVM.OrderByDescending(o => o.OrderHeader.PickupTime));
+            return View(orderDetailsVM.OrderByDescending(o => o.OrderHeader.PickupTime).ToList());
         }
     }
 }
