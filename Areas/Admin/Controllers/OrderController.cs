@@ -45,5 +45,14 @@ namespace PepperHouse.Areas.Admin.Controllers
 
             return View(orderDetailsVM.OrderByDescending(o => o.OrderHeader.PickupTime).ToList());
         }
+
+        [Authorize(Roles = SD.KitchenUser + "," + SD.ManagerUser)]
+        public async Task<IActionResult> OrderPrepare(int OrderId)
+        {
+            OrderHeader orderHeader = await _db.OrderHeader.FindAsync(OrderId);
+            orderHeader.Status = SD.StatusInProcess;
+            await _db.SaveChangesAsync();
+            return RedirectToAction("ManageOrder", "Order");
+        }
     }
 }
