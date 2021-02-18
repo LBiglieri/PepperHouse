@@ -52,7 +52,7 @@
                         @if (User.IsInRole(SD.ManagerUser) || User.IsInRole(SD.FrontDeskUser))
                         {
                             <li style="color:white">
-                                <a class="nav-link" asp-action="PickupOrder" asp-controller="Order" asp-area="Admin">
+                                <a class="nav-link" asp-action="OrderPickup" asp-controller="Order" asp-area="Admin">
                                     Order Pickups
                                 </a>
                             </li>
