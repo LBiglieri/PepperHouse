@@ -128,10 +128,15 @@
                         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                             <div>
                                 <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                    }
+                                    <div class="row">
+                                        <button type="submit" class="border-0" style="margin-left: 5px" name="provider" value="Google" title="Log in using your Google account"><img src="~/images/btn_google_signin_light_normal_web.png" style="width: 95%; height: auto" /></button>
+                                    </div>
+                                    <div class="row">
+                                        <br />
+                                    </div>
+                                    <div class="row">
+                                        <div class="fb-login-button" style="margin-left: 18px" data-width="" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                                    </div>
                                 </p>
                             </div>
                         </form>
