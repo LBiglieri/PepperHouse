@@ -43,6 +43,12 @@ namespace PepperHouse
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = "insertar aqui app id";
+                facebookOptions.AppSecret = "insertar aqui app-secret";
+            });
+
             services.AddSession(options =>
             {
                 options.Cookie.IsEssential = true;
