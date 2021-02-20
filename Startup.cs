@@ -46,13 +46,10 @@ namespace PepperHouse
             
 
             services.AddAuthentication()
-            .AddFacebook(Options =>
+            .AddFacebook(facebookOptions =>
             {
-                IConfigurationSection FBAuthNSection =
-                    Configuration.GetSection("Authentication:Facebook");
-
-                Options.AppId = FBAuthNSection["AppId"];
-                Options.AppSecret = FBAuthNSection["AppSecret"];
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             })
             .AddGoogle(options =>
             {
