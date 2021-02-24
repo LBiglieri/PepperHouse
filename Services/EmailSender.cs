@@ -27,7 +27,7 @@ namespace PepperHouse.Services
             var client = new SendGridClient(sendGridKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("Admin@pepperhouse.com", "PepperHouse Restaurant"),
+                From = new EmailAddress("lautarobiglieridev@gmail.com", "lautarobiglieridev"),
                 Subject = subject,
                 PlainTextContent = htmlMessage,
                 HtmlContent = htmlMessage
