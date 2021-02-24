@@ -183,6 +183,8 @@ namespace PepperHouse.Areas.Admin.Controllers
             orderHeader.Status = SD.StatusCompleted;
             await _db.SaveChangesAsync();
 
+            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.ApplicationUser.Id).FirstOrDefault().Email, "PepperHouse - Order Completed - ID:" + orderHeader.ID.ToString(), "Your Order has been completed succesfully!");
+
             return RedirectToAction("OrderPickup", "Order");
         }
     }
