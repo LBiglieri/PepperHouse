@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PepperHouse.Data;
@@ -20,13 +21,15 @@ namespace PepperHouse.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
+        public readonly IEmailSender _emailSender;
 
         [BindProperty]
         public OrderDetailsCart detailCart { get; set; }
 
-        public CartController(ApplicationDbContext db)
+        public CartController(ApplicationDbContext db, IEmailSender emailSender)
         {
             _db = db;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -243,6 +246,8 @@ namespace PepperHouse.Areas.Customer.Controllers
 
             if (charge.Status.ToLower() == "succeeded")
             {
+                await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == claim.Value).FirstOrDefault().Email, "PepperHouse - Order Created - ID:" + detailCart.OrderHeader.ID.ToString(), "Order has been submitted succesfully.");
+
                 detailCart.OrderHeader.PaymentStatus = SD.PaymentStatusApproved;
                 detailCart.OrderHeader.Status = SD.StatusSubmitted;
             }
