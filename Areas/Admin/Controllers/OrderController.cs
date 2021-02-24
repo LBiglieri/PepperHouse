@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PepperHouse.Data;
@@ -17,10 +18,12 @@ namespace PepperHouse.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;
+        public readonly IEmailSender _emailSender;
         private int PageSize = 10;
-        public OrderController(ApplicationDbContext db)
+        public OrderController(ApplicationDbContext db, IEmailSender emailSender)
         {
             _db = db;
+            _emailSender = emailSender;
         }
         
         [Authorize(Roles = SD.ManagerUser + "," + SD.KitchenUser)]
@@ -71,6 +74,7 @@ namespace PepperHouse.Areas.Admin.Controllers
         {
             OrderHeader orderHeader = await _db.OrderHeader.FindAsync(OrderId);
             orderHeader.Status = SD.StatusCancelled;
+            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.ApplicationUser.Id).FirstOrDefault().Email, "PepperHouse - Order Cancelled - ID:" + orderHeader.ID.ToString(), "Your Order has been cancelled.");
             await _db.SaveChangesAsync();
             return RedirectToAction("ManageOrder", "Order");
         }
