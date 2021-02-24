@@ -66,7 +66,7 @@ namespace PepperHouse.Areas.Admin.Controllers
             orderHeader.Status = SD.StatusReady;
             await _db.SaveChangesAsync();
 
-            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.ApplicationUser.Id).FirstOrDefault().Email, "PepperHouse - Order Ready for Pickup - ID:" + orderHeader.ID.ToString(), "Your Order is ready for Pickup.");
+            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.UserID).FirstOrDefault().Email, "PepperHouse - Order Ready for Pickup - ID:" + orderHeader.ID.ToString(), "Your Order is ready for Pickup.");
 
             return RedirectToAction("ManageOrder", "Order");
         }
@@ -76,7 +76,7 @@ namespace PepperHouse.Areas.Admin.Controllers
         {
             OrderHeader orderHeader = await _db.OrderHeader.FindAsync(OrderId);
             orderHeader.Status = SD.StatusCancelled;
-            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.ApplicationUser.Id).FirstOrDefault().Email, "PepperHouse - Order Cancelled - ID:" + orderHeader.ID.ToString(), "Your Order has been cancelled.");
+            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.UserID).FirstOrDefault().Email, "PepperHouse - Order Cancelled - ID:" + orderHeader.ID.ToString(), "Your Order has been cancelled.");
             await _db.SaveChangesAsync();
             return RedirectToAction("ManageOrder", "Order");
         }
@@ -183,7 +183,7 @@ namespace PepperHouse.Areas.Admin.Controllers
             orderHeader.Status = SD.StatusCompleted;
             await _db.SaveChangesAsync();
 
-            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.ApplicationUser.Id).FirstOrDefault().Email, "PepperHouse - Order Completed - ID:" + orderHeader.ID.ToString(), "Your Order has been completed succesfully!");
+            await _emailSender.SendEmailAsync(_db.Users.Where(u => u.Id == orderHeader.UserID).FirstOrDefault().Email, "PepperHouse - Order Completed - ID:" + orderHeader.ID.ToString(), "Your Order has been completed succesfully!");
 
             return RedirectToAction("OrderPickup", "Order");
         }
