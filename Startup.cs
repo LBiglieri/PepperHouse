@@ -49,18 +49,21 @@ namespace PepperHouse
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            
+
 
             services.AddAuthentication()
-            .AddFacebook(facebookOptions =>
+            .AddFacebook(options =>
             {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                IConfigurationSection facebookAuthNSection =
+                    Configuration.GetSection("Facebook");
+
+                options.AppId = facebookAuthNSection["AppId"];
+                options.AppSecret = facebookAuthNSection["AppSecret"];
             })
             .AddGoogle(options =>
             {
                 IConfigurationSection googleAuthNSection =
-                    Configuration.GetSection("Authentication:Google");
+                    Configuration.GetSection("Google");
 
                 options.ClientId = googleAuthNSection["ClientId"];
                 options.ClientSecret = googleAuthNSection["ClientSecret"];
@@ -68,7 +71,7 @@ namespace PepperHouse
             .AddGitHub(options =>
             {
                 IConfigurationSection githubAuthNSection =
-                    Configuration.GetSection("Authentication:GitHub");
+                    Configuration.GetSection("GitHub");
 
                 options.ClientId = githubAuthNSection["ClientId"];
                 options.ClientSecret = githubAuthNSection["ClientSecret"];
