@@ -16,6 +16,6 @@ _El proyecto fue construido con las siguientes herramientas:_
 * [TinyMCE](https://www.tiny.cloud/docs/) - Cuadros de texto enriquecido.
 * [FontAwesome](https://fontawesome.com/v5.15/how-to-use/on-the-web/referencing-icons/basic-use) - Iconos CSS.
 
-##Planes a futuro ✈
+## Planes a futuro ✈
 * Adaptar el sitio para mejorar funcionamiento en dispositivos moviles.
 * Mejorar tiempos de carga del sitio disminuyento el tamaño total del mismo.
