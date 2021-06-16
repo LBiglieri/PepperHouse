@@ -1,5 +1,5 @@
 # PepperHouse 🌶🍽
-_Proyecto enfocado a la venta, manejo y pickup de pedidos para el restaurant ficticio "PepperHouse". _
+_Proyecto enfocado a la venta, manejo y pickup de pedidos para el restaurant ficticio "PepperHouse"._
 
 ## Implementación 🗺🌐
 El proyecto actualmente se encuentra implementado en Azure bajo la url:
