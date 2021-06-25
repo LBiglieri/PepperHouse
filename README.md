@@ -10,11 +10,11 @@ _El proyecto fue construido con las siguientes herramientas:_
 * [Asp.Net Core 3.1 ](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.1) - Framework usado.
 * [Entity Framework Core 5](https://docs.microsoft.com/en-us/ef/core/) - O/RM.
 * [Bootstrap 4.4](https://getbootstrap.com/docs/4.4/getting-started/introduction/) - Clases CSS.
-* [Stripe](https://stripe.com/docs) - Usado para gestionar pagos.
+* [Stripe](https://stripe.com/docs) - Usado para realizar pagos.
 * [SendGrid](https://docs.sendgrid.com/) - Usado para enviar mails con estado de pedido, facturas, etc.
 * [Jquery](https://api.jqueryui.com/) - Usado para  el componente timepicker.
 * [TinyMCE](https://www.tiny.cloud/docs/) - Cuadros de texto enriquecido.
-* [FontAwesome](https://fontawesome.com/v5.15/how-to-use/on-the-web/referencing-icons/basic-use) - Iconos CSS.
+* [FontAwesome](https://fontawesome.com/v5.15/how-to-use/on-the-web/referencing-icons/basic-use) - Iconos hechos en CSS.
 
 ## Planes a futuro ✈
 * Adaptar el sitio para mejorar funcionamiento en dispositivos moviles.
